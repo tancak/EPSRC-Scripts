@@ -13,5 +13,5 @@ export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)
 cd $PBS_O_WORKDIR
 
 export MPICH_MAX_THREAD_SAFETY=multiple
-aprun -n 8 -S 2 ../../swift_mpi --hydro --pin --threads=16 sodShock.yml
+aprun -n 8 -S 2 -d 16 ../../swift_mpi --hydro --threads=16 sodShock.yml
 
