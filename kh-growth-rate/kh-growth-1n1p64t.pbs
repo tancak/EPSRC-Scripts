@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -q arm
+#PBS -l select=1:ncpus=64
+#PBS -l walltime=00:30:00
+#PBS -N Kelvin_Helmoltz_Growth_Rate_1n1p64t
+
+module switch PrgEnv-cray PrgEnv-gnu
+module load cray-hdf5-parallel
+module load cray-fftw
+module load cray-jemalloc
+
+export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)
+cd $PBS_O_WORKDIR
+
+../../swift --hydro --threads=64 kelvinHelmholtzGrowthRate.yml 2>&1  | tee output.log
+
