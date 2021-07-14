@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -q arm
+#PBS -l select=1:ncpus=64
+#PBS -l walltime=1:00:00
+#PBS -N Eagle_1n2p32t
+
+module switch PrgEnv-cray PrgEnv-gnu
+module load cray-hdf5-parallel
+module load cray-fftw
+module load cray-jemalloc
+
+export PBS_O_WORKDIR=$(readlink -f $PBS_O_WORKDIR)
+cd $PBS_O_WORKDIR
+
+export MPICH_MAX_THREAD_SAFETY=multiple
+aprun -n 2 -S 1 -d 32 -j1 ../../swift_mpi --hydro --threads=32 -n 250 eagle_6.yml 2>&1
